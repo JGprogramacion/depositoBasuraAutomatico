@@ -1,5 +1,4 @@
- #include <Servo.h>                                          //Incluir libreria de servomotor.
-
+#include <Servo.h>                                          //Incluir libreria de servomotor.
 int servoPin = 10;                                          //Asignar variable para enviar señal pwm y generar movimiento de motor (se puede asignar otro pin, recordar que pueda enviar señal pwm)
 Servo myServo;                                              //Crear objeto de libreria servomotor (nombre myServo, puede tener cualquier nombre)
 
@@ -8,6 +7,9 @@ int TRIG = 6;			                                            //Asignar variable p
 int ECO = 5;			                                             //Asignar variable para Echo en pin 5
 int DURACION;                                               //Variable para almacenar la duración de la señal enviada y recibida del sensor de ultrasonido.
 int DISTANCIA;                                              //Variable para almacenar operación matematica que convierte el la DURACIÓN en distancia (cm).
+
+int valMax = 20;
+int valMin = 0;
 
 void setup() {
   Serial.begin(9600);  		                                   //Inicializacion de comunicacion serial a 9600 bps para visualizar la distancia obtenida por el sensor (Se visualiza la variable DISTANCIA)
@@ -18,9 +20,9 @@ void setup() {
 
 void loop() {
  range();                                                   //Ejecutar funcion range
- if(DISTANCIA>0 && DISTANCIA<20){                           //Realizar pregunta (generar condición) de la distancia necesaria para enviar una señal al servo motor (abrir tapa del contenedor)
+ if(DISTANCIA>valMin && DISTANCIA<valMax){                           //Realizar pregunta (generar condición) de la distancia necesaria para enviar una señal al servo motor (abrir tapa del contenedor)
   open();                                                   //Ejecutar funcion abrir.
- }else if(DISTANCIA<=0 || DISTANCIA>=200){                  //Eliminar error de datos negativos y positivos (mayores a 200 cm)
+ }else if(DISTANCIA<=valMin || DISTANCIA>=valMax){                  //Eliminar error de datos negativos y positivos (mayores a 200 cm)
     close();
   }
 }
